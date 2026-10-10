@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>À copier</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{background:#070a12;color:#e2f2ff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    padding:20px 16px 60px;line-height:1.55}
+  h1{font-size:19px;letter-spacing:2.5px;color:#7dd3fc;font-weight:800;margin-bottom:4px}
+  .sous{font-size:12.5px;color:#5b7ea3;margin-bottom:22px}
+  .carte{background:#0d1421;border:1px solid #1e2d42;border-radius:16px;padding:18px;margin-bottom:20px}
+  .carte h2{font-size:13px;letter-spacing:2px;color:#f5c344;font-weight:800;margin-bottom:4px}
+  .date{font-size:11.5px;color:#4a6a8a;margin-bottom:14px}
+  .txt{background:#080d17;border:1px solid #16233a;border-radius:11px;padding:15px;
+    font-size:14.5px;white-space:pre-wrap;word-break:break-word;margin-bottom:16px;color:#dbeafe}
+  .btn{width:100%;padding:17px;border:none;border-radius:12px;font-size:15px;font-weight:900;
+    letter-spacing:1.5px;cursor:pointer;font-family:inherit;transition:.2s;
+    background:linear-gradient(180deg,#22d3ee,#0891b2);color:#04121c}
+  .btn:active{transform:scale(.97)}
+  .btn.ok{background:linear-gradient(180deg,#4ade80,#16a34a);color:#03180b}
+  .vide{text-align:center;color:#4a6a8a;font-size:13.5px;padding:26px 10px}
+  .pied{margin-top:26px;text-align:center;font-size:11.5px;color:#33506e;line-height:1.7}
+  .pied a{color:#4a7fa8;text-decoration:none}
+</style>
+</head>
+<body>
+  <h1>📋 À COPIER</h1>
+  <div class="sous">Appuie sur le bouton — le texte part dans ton presse-papiers.</div>
+  <div id="zone"><div class="vide">Chargement…</div></div>
+  <div class="pied">
+    Actualisé automatiquement à chaque nouvelle vidéo.<br>
+    <span id="maj"></span>
+  </div>
+
+<script>
+async function copier(id, btn){
+  const el = document.getElementById('t-' + id);
+  const texte = el ? el.textContent : '';
+  if(!texte) return;
+  let ok = false;
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(texte);
+      ok = true;
+    }
+  }catch(e){}
+  if(!ok){
+    /* repli pour vieux navigateurs / navigateur integre */
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = texte;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+    }catch(e){}
+  }
+  const orig = btn.textContent;
+  btn.textContent = ok ? '✅  COPIÉ !' : '❌  SÉLECTIONNE À LA MAIN';
+  btn.classList.toggle('ok', ok);
+  if(navigator.vibrate) navigator.vibrate(ok ? 60 : [40,60,40]);
+  setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('ok'); }, 2600);
+}
+
+function afficher(data){
+  const zone = document.getElementById('zone');
+  const cles = Object.keys(data.blocs || {});
+  if(!cles.length){ zone.innerHTML = '<div class="vide">Aucun texte disponible pour le moment.</div>'; return; }
+  zone.innerHTML = cles.map(k => {
+    const b = data.blocs[k];
+    return `<div class="carte">
+      <h2>${b.titre || k}</h2>
+      <div class="date">${b.date || ''}</div>
+      <div class="txt" id="t-${k}">${(b.texte || '').replace(/</g,'&lt;')}</div>
+      <button class="btn" onclick="copier('${k}', this)">COPIER LE TEXTE</button>
+    </div>`;
+  }).join('');
+  document.getElementById('maj').textContent = data.maj ? ('Dernière mise à jour : ' + data.maj) : '';
+}
+
+fetch('descriptions.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(afficher)
+  .catch(() => {
+    document.getElementById('zone').innerHTML =
+      '<div class="vide">⚠️ Impossible de charger les textes.<br>Recharge la page dans un instant.</div>';
+  });
+</script>
+</body>
+</html>

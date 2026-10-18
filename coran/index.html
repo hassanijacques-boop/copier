@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f17">
+<title>MON CORAN · 180 jours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --or:#f5c451; --or2:#ffe9a8; --fond:#0b0f17; --carte:#141b27; --carte2:#1b2432;
+    --txt:#eef2f8; --gris:#93a1b8; --vert:#34d399; --vert2:#6ee7b7;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:radial-gradient(120% 60% at 50% 0%,#16202f 0%,#0b0f17 55%,#070a10 100%);
+       color:var(--txt);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       padding:18px 14px calc(86px + env(safe-area-inset-bottom));min-height:100vh}
+  .ar{font-family:"Noto Naskh Arabic","Traditional Arabic",serif;direction:rtl;unicode-bidi:isolate}
+  header{text-align:center;margin:4px 0 16px}
+  .sur{font-size:11px;letter-spacing:.22em;color:var(--or);font-weight:800;text-transform:uppercase}
+  h1{font-size:26px;margin:6px 0 2px;letter-spacing:-.4px}
+  .sous{font-size:13px;color:var(--gris)}
+  .jour{display:flex;align-items:center;justify-content:center;gap:6px;margin:16px 0 6px}
+  .num{font-size:64px;font-weight:800;line-height:1;color:var(--or);text-shadow:0 0 40px rgba(245,196,81,.35)}
+  .num small{font-size:20px;color:var(--gris);font-weight:600}
+  .barre{height:9px;border-radius:99px;background:#1e2735;overflow:hidden;margin:14px 0 6px;border:1px solid #26303f}
+  .barre i{display:block;height:100%;background:linear-gradient(90deg,#b98a1e,var(--or),var(--or2));border-radius:99px;transition:width .5s}
+  .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--gris);margin-bottom:18px}
+  .carte{background:linear-gradient(180deg,var(--carte),var(--carte2));border:1px solid #26303f;
+         border-radius:18px;padding:16px 16px 18px;margin-bottom:14px;box-shadow:0 14px 34px rgba(0,0,0,.35)}
+  .carte h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--or);margin:0 0 10px;font-weight:800}
+  .gros{font-size:26px;font-weight:800;line-height:1.2;margin:0 0 4px}
+  .sourate{font-size:15px;color:var(--or2);font-weight:600;margin-bottom:2px}
+  .tache-txt{font-size:14.5px;line-height:1.6;color:#dbe3ee}
+  .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;background:rgba(245,196,81,.14);
+       color:var(--or);border:1px solid rgba(245,196,81,.35);padding:4px 10px;border-radius:99px;margin-bottom:10px}
+  ul.blocs{list-style:none;padding:0;margin:0}
+  ul.blocs li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px dashed #26303f}
+  ul.blocs li:last-child{border-bottom:0}
+  .case{flex:0 0 26px;height:26px;border-radius:8px;border:2px solid #3a4658;margin-top:1px;display:grid;
+        place-items:center;font-size:15px;color:#0b0f17;font-weight:900;cursor:pointer;transition:.15s}
+  .case.on{background:var(--vert);border-color:var(--vert)}
+  .bl-nom{font-weight:700;font-size:14px}
+  .bl-duree{font-size:12px;color:var(--or);font-weight:700}
+  .bl-desc{font-size:12.5px;color:var(--gris);line-height:1.45;margin-top:2px}
+  textarea{width:100%;min-height:92px;background:#0e141d;border:1px solid #2b3646;border-radius:12px;
+           color:var(--txt);padding:12px;font-family:inherit;font-size:15px;resize:vertical}
+  input[type=number]{background:#0e141d;border:1px solid #2b3646;border-radius:10px;color:var(--or);
+           padding:9px 12px;width:86px;font-family:inherit;font-size:17px;font-weight:800;text-align:center}
+  .btn{display:block;width:100%;padding:13px;border-radius:13px;border:0;font-weight:800;font-size:15px;
+       background:linear-gradient(180deg,var(--or2),var(--or));color:#1a1206;margin-top:10px;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--or);border:1px solid rgba(245,196,81,.4);margin-top:8px;text-align:center;
+             text-decoration:none}
+  a{color:var(--or)}
+  .jalon{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed #26303f;font-size:14px}
+  .jalon:last-child{border-bottom:0}
+  .j-num{flex:0 0 52px;font-weight:800;color:var(--or)}
+  .j-date{font-size:12px;color:var(--gris)}
+  .fini{opacity:.45;text-decoration:line-through}
+  .regle{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #26303f;font-size:14px;line-height:1.5}
+  .regle:last-child{border-bottom:0}
+  .r-num{flex:0 0 24px;height:24px;border-radius:50%;background:rgba(245,196,81,.16);color:var(--or);
+         display:grid;place-items:center;font-weight:800;font-size:12px}
+  .lien{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px dashed #26303f;
+        font-size:14px;text-decoration:none;color:var(--txt)}
+  .lien:last-child{border-bottom:0}
+  .lien span{color:var(--gris);font-size:12px;white-space:nowrap}
+  nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(11,15,23,.96);
+      backdrop-filter:blur(12px);border-top:1px solid #26303f;padding-bottom:env(safe-area-inset-bottom);z-index:9}
+  nav button{flex:1;background:none;border:0;color:var(--gris);font-family:inherit;font-size:11px;font-weight:700;
+             padding:12px 4px 13px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+  nav button i{font-size:18px;font-style:normal}
+  nav button.on{color:var(--or)}
+  .vue{display:none}.vue.on{display:block}
+  .pied{text-align:center;font-size:11px;color:#5d6b80;margin-top:22px;line-height:1.6}
+  .alerte{background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.35);color:#ffd4da;
+          border-radius:14px;padding:13px 15px;font-size:14px;line-height:1.55;margin-bottom:14px}
+  .ok{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.35);color:#c7f7e5;
+      border-radius:14px;padding:13px 15px;font-size:14px;line-height:1.55;margin-bottom:14px}
+  .juz{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #26303f;font-size:13px}
+  .juz:last-child{border-bottom:0}
+  .juz b{color:var(--or);flex:0 0 46px}
+  .juz span{color:var(--gris);flex:0 0 70px;text-align:right;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="sur">CALL OF THE MATRIX · القَلْب</div>
+  <h1>MON CORAN — 180 JOURS</h1>
+  <div class="sous" id="sous0">Khatm complet · 604 pages · 6 mois</div>
+</header>
+
+<section class="vue on" id="v-aujourdhui">
+  <div class="jour"><div class="num" id="numjour">J1<small>/180</small></div></div>
+  <div class="sous" style="text-align:center" id="ladate">—</div>
+  <div class="barre"><i id="prog" style="width:1%"></i></div>
+  <div class="meta"><span id="phase">JUZ 1</span><span id="reste">—</span></div>
+  <div id="alerte"></div>
+
+  <div class="carte">
+    <span class="tag">LA LECTURE DU JOUR</span>
+    <p class="gros" id="pages">—</p>
+    <p class="sourate" id="sourates">—</p>
+    <div class="tache-txt" id="lectxt"></div>
+    <a class="btn ghost" id="lienpage" href="#" target="_blank" rel="noopener">OUVRIR LA PAGE SUR QURAN.COM ↗</a>
+  </div>
+
+  <div class="carte">
+    <h2>LA RÉCITATION — 10 MINUTES</h2>
+    <p class="sourate" id="flusourate">—</p>
+    <div class="tache-txt" id="flutexte"></div>
+  </div>
+
+  <div class="carte">
+    <h2>LA MÉMORISATION — 10 MINUTES</h2>
+    <p class="sourate" id="memsourate">—</p>
+    <div class="tache-txt" id="memtexte"></div>
+  </div>
+
+  <div class="carte">
+    <h2>LA SÉANCE DU JOUR</h2>
+    <ul class="blocs" id="blocs"></ul>
+  </div>
+
+  <div class="carte">
+    <h2>CE QUE TU M'ENVOIES CE SOIR</h2>
+    <div class="tache-txt" style="margin-bottom:10px">
+      Le nombre de fois où tu as buté, et la page où ça bloque. Si tu peux, ajoute un
+      <b>vocal de 30 secondes</b> de ta lecture : je te dis quelles lettres te font encore ralentir.
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <label for="hes" style="font-size:13px;color:var(--gris)">Hésitations aujourd'hui</label>
+      <input type="number" id="hes" min="0" max="99" placeholder="—">
+    </div>
+    <textarea id="mesnotes" placeholder="La page où tu as buté, les mots difficiles…"></textarea>
+    <button class="btn" id="btncopier">COPIER ET ENVOYER SUR TELEGRAM</button>
+  </div>
+
+  <div class="pied">Version 1.0 · 18 octobre 2026 · mushaf de 604 pages · <span id="verif"></span></div>
+</section>
+
+<section class="vue" id="v-programme">
+  <div class="carte">
+    <h2>LES JALONS DU KHATM</h2>
+    <div id="jalons"></div>
+  </div>
+  <div class="carte">
+    <h2>LES 26 SOURATES À MÉMORISER</h2>
+    <div class="tache-txt" style="margin-bottom:8px">Une par semaine, de la fin du mushaf vers l'avant. On révise toujours les trois précédentes.</div>
+    <div id="mems"></div>
+  </div>
+  <div class="carte">
+    <h2>LES 30 JUZ — TES PAGES</h2>
+    <div id="juzs"></div>
+  </div>
+  <div class="carte">
+    <h2>TON RYTHME</h2>
+    <div class="tache-txt">604 pages en 180 jours = <b>3 à 4 pages par jour</b>.
+      Sur un mushaf normal, c'est <b>20 à 30 minutes</b> à voix haute.<br><br>
+      Trop rapide ? Dis-le-moi et je passe le khatm à <b>1 an</b> (2 pages/jour) ou à
+      <b>3 mois</b> (7 pages/jour).</div>
+  </div>
+</section>
+
+<section class="vue" id="v-regles">
+  <div class="carte">
+    <h2>LES 7 RÈGLES</h2>
+    <div id="regles"></div>
+  </div>
+  <div class="carte">
+    <h2>LE LIEN AVEC « MON ARABE »</h2>
+    <div class="tache-txt">Le <b>bloc 1</b> de ton programme d'arabe — 10 minutes de fluidité à voix haute —
+      <b>c'est cette récitation</b>. Tu ne fais pas deux fois le travail : tu le comptes dans les deux pages.</div>
+  </div>
+</section>
+
+<section class="vue" id="v-liens">
+  <div class="carte">
+    <h2>TOUT EST GRATUIT</h2>
+    <a class="lien" id="lnk-page" href="#" target="_blank" rel="noopener"><b>Quran.com — la page du jour</b><span>texte + audio ↗</span></a>
+    <a class="lien" href="https://corpus.quran.com/wordbyword.jsp" target="_blank" rel="noopener"><b>Corpus coranique</b><span>la grammaire de chaque mot ↗</span></a>
+    <a class="lien" href="https://www.youtube.com/@arabic101" target="_blank" rel="noopener"><b>Arabic101</b><span>lire le Coran correctement ↗</span></a>
+    <a class="lien" href="https://arabicwithoutwalls.ucdavis.edu/" target="_blank" rel="noopener"><b>Arabic Without Walls</b><span>cours de Fusha avec audio ↗</span></a>
+    <a class="lien" href="https://www.learnarabiconline.com/" target="_blank" rel="noopener"><b>Learn Arabic Online</b><span>grammaire classique ↗</span></a>
+  </div>
+  <div class="carte">
+    <h2>LE SEUL ACHAT ÉVENTUEL</h2>
+    <div class="tache-txt">Rien. Mais <b>garde le même mushaf du début à la fin</b> : la mémoire des doigts et des yeux
+      compte autant que la lecture. Si tu changes d'édition, la numérotation des pages change avec toi.</div>
+  </div>
+</section>
+
+<nav>
+  <button class="on" data-v="aujourdhui"><i>◎</i>AUJOURD'HUI</button>
+  <button data-v="programme"><i>▤</i>PROGRAMME</button>
+  <button data-v="regles"><i>✦</i>RÈGLES</button>
+  <button data-v="liens"><i>↗</i>LIENS</button>
+</nav>
+
+<script>
+const JUZ=[1, 22, 42, 62, 82, 102, 121, 142, 162, 182, 201, 222, 242, 262, 282, 302, 322, 342, 362, 382, 402, 422, 442, 462, 482, 502, 522, 542, 562, 582];
+const S_SP=[null, 1, 2, 50, 77, 106, 128, 151, 177, 187, 208, 221, 235, 249, 255, 262, 267, 282, 293, 305, 312, 322, 332, 342, 350, 359, 367, 377, 385, 396, 404, 411, 415, 418, 428, 434, 440, 446, 453, 458, 467, 477, 483, 489, 496, 499, 502, 507, 511, 515, 518, 520, 523, 526, 528, 531, 534, 537, 542, 545, 549, 551, 553, 554, 556, 558, 560, 562, 564, 566, 568, 570, 572, 574, 575, 577, 578, 580, 582, 583, 585, 586, 587, 587, 589, 590, 591, 591, 592, 593, 594, 595, 595, 596, 596, 597, 597, 598, 598, 599, 599, 600, 600, 601, 601, 601, 602, 602, 602, 603, 603, 603, 604, 604, 604];
+const S_NOM=["Al-Faatiha", "Al-Baqara", "Aal-i-Imraan", "An-Nisaa", "Al-Maaida", "Al-An'aam", "Al-A'raaf", "Al-Anfaal", "At-Tawba", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Israa", "Al-Kahf", "Maryam", "Taa-Haa", "Al-Anbiyaa", "Al-Hajj", "Al-Muminoon", "An-Noor", "Al-Furqaan", "Ash-Shu'araa", "An-Naml", "Al-Qasas", "Al-Ankaboot", "Ar-Room", "Luqman", "As-Sajda", "Al-Ahzaab", "Saba", "Faatir", "Yaseen", "As-Saaffaat", "Saad", "Az-Zumar", "Ghafir", "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhaan", "Al-Jaathiya", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujuraat", "Qaaf", "Adh-Dhaariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahmaan", "Al-Waaqia", "Al-Hadid", "Al-Mujaadila", "Al-Hashr", "Al-Mumtahana", "As-Saff", "Al-Jumu'a", "Al-Munaafiqoon", "At-Taghaabun", "At-Talaaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haaqqa", "Al-Ma'aarij", "Nooh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyaama", "Al-Insaan", "Al-Mursalaat", "An-Naba", "An-Naazi'aat", "Abasa", "At-Takwir", "Al-Infitaar", "Al-Mutaffifin", "Al-Inshiqaaq", "Al-Burooj", "At-Taariq", "Al-A'laa", "Al-Ghaashiya", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Lail", "Ad-Dhuhaa", "Ash-Sharh", "At-Tin", "Al-Alaq", "Al-Qadr", "Al-Bayyina", "Az-Zalzala", "Al-Aadiyaat", "Al-Qaari'a", "At-Takaathur", "Al-Asr", "Al-Humaza", "Al-Fil", "Quraish", "Al-Maa'un", "Al-Kawthar", "Al-Kaafiroon", "An-Nasr", "Al-Masad", "Al-Ikhlaas", "Al-Falaq", "An-Naas"];
+const S_AYA=[7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6];
+
+
+const TOTAL = 180;
+const DEBUT = new Date(2026, 9, 19);
+const JOURS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+
+const dateDe = k => new Date(DEBUT.getTime() + (k-1)*86400000);
+const enClair = d => JOURS[d.getDay()] + " " + d.getDate() + " " + MOIS[d.getMonth()] + " " + d.getFullYear();
+const finPage = s => (s < 114 ? S_SP[s+1] - 1 : 604);
+
+/* pages du jour */
+function jourDuJuz(d){
+  const j = Math.min(30, Math.floor((d-1)/6) + 1);
+  const k = (d-1) % 6;                      // 0..5
+  const a = JUZ[j-1];
+  const b = (j < 30) ? JUZ[j] - 1 : 604;
+  const n = b - a + 1, base = Math.floor(n/6), r = n % 6;
+  const tailles = [0,1,2,3,4,5].map(i => base + (i < r ? 1 : 0));
+  const start = a + tailles.slice(0,k).reduce((x,y)=>x+y,0);
+  return {juz:j, jourDansJuz:k+1, a:start, b:start + tailles[k] - 1};
+}
+function souratesDe(a,b){
+  const out=[];
+  for(let s=1;s<=114;s++){
+    const d1=S_SP[s], d2=finPage(s);
+    if(d2>=a && d1<=b) out.push(s);
+  }
+  return out;
+}
+const nom = s => S_NOM[s-1];
+const arabe = s => "";
+
+/* récitation : les sourates 78 → 114, une par jour, en boucle */
+const RECIT = [];
+for(let s=78;s<=114;s++) RECIT.push(s);
+
+/* mémorisation : 26 semaines, de An-Nas (114) vers Al-Fajr (89) */
+const MEM = [];
+for(let s=114;s>=89;s--) MEM.push(s);
+
+/* ─── rendu ─── */
+const MOIS_C = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+const court = d => d.getDate() + " " + MOIS_C[d.getMonth()] + " " + d.getFullYear();
+document.getElementById("sous0").textContent = "Khatm complet · " + court(dateDe(1)) + " → " + court(dateDe(TOTAL));
+
+const AUJ = new Date(); AUJ.setHours(0,0,0,0);
+let brut = Math.floor((AUJ - DEBUT)/86400000) + 1;
+const avant = brut < 1;
+let n = Math.max(1, Math.min(TOTAL, brut));
+
+document.getElementById("numjour").innerHTML = "J" + n + "<small>/" + TOTAL + "</small>";
+document.getElementById("ladate").textContent = enClair(dateDe(n));
+document.getElementById("prog").style.width = (n/TOTAL*100).toFixed(1) + "%";
+const pj = jourDuJuz(n);
+document.getElementById("phase").textContent = "JUZ " + pj.juz + " · jour " + pj.jourDansJuz + "/6";
+document.getElementById("reste").textContent = "reste " + (TOTAL-n) + " jour" + (TOTAL-n>1?"s":"");
+
+document.getElementById("pages").textContent = (pj.a===pj.b) ? ("Page " + pj.a) : ("Pages " + pj.a + " → " + pj.b);
+const ss = souratesDe(pj.a, pj.b);
+document.getElementById("sourates").textContent = ss.map(nom).join(" · ");
+const nbPages = pj.b - pj.a + 1;
+document.getElementById("lectxt").innerHTML =
+  "À voix haute, avec les harakat. <b>" + nbPages + " page" + (nbPages>1?"s":"") + "</b>, sans revenir en arrière. " +
+  "Si tu butes, tu notes la page et tu continues — tu ne t'arrêtes pas.";
+document.getElementById("lienpage").href = "https://quran.com/page/" + pj.a;
+document.getElementById("lnk-page").href = "https://quran.com/page/" + pj.a;
+
+const rs = RECIT[(n-1) % RECIT.length];
+document.getElementById("flusourate").textContent = "Sourate " + nom(rs) + " — " + S_AYA[rs-1] + " versets";
+document.getElementById("flutexte").innerHTML =
+  "Quatre lectures : une pour déchiffrer, une à voix haute, une en suivant des yeux, " +
+  "et <b>la dernière chronométrée</b>. C'est la quatrième qui progresse.";
+
+const sem = Math.floor((n-1)/7) + 1;
+const ms = MEM[Math.min(MEM.length-1, sem-1)];
+const rev = [1,2,3].map(k => MEM[Math.max(0, Math.min(MEM.length-1, sem-1-k))]);
+document.getElementById("memsourate").textContent = "Semaine " + sem + " — sourate " + nom(ms) + " (" + S_AYA[ms-1] + " versets)";
+document.getElementById("memtexte").innerHTML =
+  "Aujourd'hui : tu répètes les <b>3 premiers versets</b> à voix haute, dix fois, en regardant le texte les trois premières fois, " +
+  "puis sans regarder.<br>Révision : " + rev.map(s=>nom(s)).join(" · ") + ".";
+
+/* séance */
+const SEANCE = [
+  ["1 — La lecture du jour","20-30 min","Tes pages, à voix haute, sans t'arrêter."],
+  ["2 — La récitation","10 min","La sourate du jour, quatre fois, la dernière chronométrée."],
+  ["3 — La mémorisation","10 min","Les versets du jour, dix répétitions, puis sans regarder."],
+  ["4 — Ce que tu m'envoies","2 min","Le nombre d'hésitations et la page qui bloque."]
+];
+const ulB = document.getElementById("blocs");
+const cle = "coran_" + dateDe(n).toISOString().slice(0,10);
+let fait = JSON.parse(localStorage.getItem(cle) || "[]");
+SEANCE.forEach(([nom2,duree,desc],i)=>{
+  const on = fait.includes(i);
+  const li = document.createElement("li");
+  li.innerHTML = '<div class="case'+(on?' on':'')+'" data-i="'+i+'">'+(on?'✓':'')+'</div>'+
+    '<div><div><span class="bl-nom">'+nom2+'</span> · <span class="bl-duree">'+duree+'</span></div>'+
+    '<div class="bl-desc">'+desc+'</div></div>';
+  ulB.appendChild(li);
+});
+ulB.addEventListener("click", e=>{
+  const c = e.target.closest(".case"); if(!c) return;
+  const i = +c.dataset.i;
+  fait = fait.includes(i) ? fait.filter(x=>x!==i) : fait.concat(i);
+  localStorage.setItem(cle, JSON.stringify(fait));
+  c.classList.toggle("on"); c.textContent = c.classList.contains("on") ? "✓" : "";
+});
+
+/* hésitations du jour, gardées */
+const cleH = "coran_h_" + dateDe(n).toISOString().slice(0,10);
+const inp = document.getElementById("hes");
+inp.value = localStorage.getItem(cleH) || "";
+inp.addEventListener("input", ()=> localStorage.setItem(cleH, inp.value));
+
+/* copier */
+document.getElementById("btncopier").addEventListener("click", async ()=>{
+  const b = document.getElementById("btncopier");
+  const h = inp.value ? (inp.value + " hésitations") : "hésitations non notées";
+  const notes = document.getElementById("mesnotes").value.trim();
+  const msg = "CORAN — J" + n + " (" + enClair(dateDe(n)) + ")\n" +
+              "Pages " + pj.a + " → " + pj.b + " · juz " + pj.juz + "\n" +
+              h + (notes ? ("\n" + notes) : "");
+  try{ await navigator.clipboard.writeText(msg); b.textContent = "COPIÉ — COLLE-LE DANS TELEGRAM"; }
+  catch(e){ b.textContent = "SELECTIONNE LE TEXTE ET COPIE-LE"; }
+  setTimeout(()=>b.textContent="COPIER ET ENVOYER SUR TELEGRAM", 2600);
+});
+
+/* alerte */
+if(avant){
+  document.getElementById("alerte").innerHTML =
+    '<div class="alerte">Le programme commence le <b>' + enClair(dateDe(1)) + '</b>. ' +
+    'Jusque-là : choisis ton mushaf et ne le change plus.</div>';
+} else if(n === TOTAL){
+  document.getElementById("alerte").innerHTML =
+    '<div class="ok">Dernier jour. Le khatm est complet — et on fait le bilan des 180 jours.</div>';
+}
+
+/* jalons */
+const JALONS = [
+  [30,5,"Juz 5 — tu as fini 5 juz"],
+  [60,10,"Juz 10 — un tiers du Coran"],
+  [90,15,"Juz 15 — la moitié du mushaf"],
+  [120,20,"Juz 20"],
+  [150,25,"Juz 25 — il reste 5 juz"],
+  [180,30,"KHATM — les 604 pages lues"]
+];
+const jl = document.getElementById("jalons");
+JALONS.forEach(([k,j,lib])=>{
+  const div = document.createElement("div");
+  div.className = "jalon" + (k<=n?" fini":"");
+  div.innerHTML = '<div class="j-num">J'+k+'</div><div><div>'+lib+'</div>' +
+    '<div class="j-date">' + enClair(dateDe(k)) + '</div></div>';
+  jl.appendChild(div);
+});
+
+/* mémorisation */
+const mm = document.getElementById("mems");
+MEM.forEach((s,i)=>{
+  const div = document.createElement("div");
+  div.className = "jalon";
+  div.innerHTML = '<div class="j-num">S'+(i+1)+'</div><div><div>'+nom(s)+'</div>' +
+    '<div class="j-date">'+S_AYA[s-1]+' versets</div></div>';
+  mm.appendChild(div);
+});
+
+/* juz */
+const jz = document.getElementById("juzs");
+for(let j=1;j<=30;j++){
+  const a = JUZ[j-1], b = (j<30) ? JUZ[j]-1 : 604;
+  const sl = souratesDe(a,b);
+  const div = document.createElement("div");
+  div.className = "juz";
+  const liste = sl.length > 3 ? (nom(sl[0]) + " → " + nom(sl[sl.length-1])) : sl.map(nom).join(" · ");
+  div.innerHTML = "<b>Juz " + j + "</b><div style='flex:1;color:#dbe3ee'>" + liste + "</div><span>" + a + "-" + b + "</span>";
+  jz.appendChild(div);
+}
+
+/* règles */
+const REGLES = [
+  "On lit à voix haute. Jamais en silence, jamais en suivant du doigt lettre par lettre.",
+  "On lit par groupes de 2 à 3 mots d'un seul regard. C'est ça qui fait la vitesse.",
+  "Butes ? Tu notes la page et tu continues. On ne recommence pas la page.",
+  "Un jour raté ne se rattrape pas, il s'oublie. Jamais deux jours de suite sans rien.",
+  "15 minutes valent infiniment mieux que zéro. La séance idéale non faite est le vrai ennemi.",
+  "Même mushaf du premier au dernier jour. Changer d'édition change la numérotation.",
+  "On ne repart jamais de la page 1. Le khatm se termine."
+];
+const rg = document.getElementById("regles");
+REGLES.forEach((r,i)=>{
+  const div = document.createElement("div");
+  div.className = "regle";
+  div.innerHTML = '<div class="r-num">'+(i+1)+'</div><div>'+r+'</div>';
+  rg.appendChild(div);
+});
+
+/* nav */
+document.querySelectorAll("nav button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".vue").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    document.getElementById("v-"+b.dataset.v).classList.add("on");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+document.getElementById("verif").textContent = "build " + document.lastModified.slice(0,10).replace(/-/g,"");
+</script>
+</body>
+</html>

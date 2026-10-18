@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f17">
+<title>MON ARABE · 90 jours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --or:#f5c451; --or2:#ffe9a8; --fond:#0b0f17; --carte:#141b27; --carte2:#1b2432;
+    --txt:#eef2f8; --gris:#93a1b8; --vert:#34d399; --rouge:#fb7185;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:radial-gradient(120% 60% at 50% 0%,#16202f 0%,#0b0f17 55%,#070a10 100%);
+       color:var(--txt);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       padding:18px 14px calc(86px + env(safe-area-inset-bottom));min-height:100vh}
+  .ar{font-family:"Noto Naskh Arabic","Traditional Arabic",serif;direction:rtl;unicode-bidi:isolate}
+  header{text-align:center;margin:4px 0 16px}
+  .sur{font-size:11px;letter-spacing:.22em;color:var(--or);font-weight:800;text-transform:uppercase}
+  h1{font-size:26px;margin:6px 0 2px;letter-spacing:-.4px}
+  .sous{font-size:13px;color:var(--gris)}
+  .jour{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0 6px}
+  .num{font-size:64px;font-weight:800;line-height:1;color:var(--or);
+       text-shadow:0 0 40px rgba(245,196,81,.35)}
+  .num small{font-size:20px;color:var(--gris);font-weight:600}
+  .barre{height:9px;border-radius:99px;background:#1e2735;overflow:hidden;margin:14px 0 6px;
+         border:1px solid #26303f}
+  .barre i{display:block;height:100%;background:linear-gradient(90deg,#b98a1e,var(--or),var(--or2));
+           border-radius:99px;transition:width .5s}
+  .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--gris);margin-bottom:18px}
+  .carte{background:linear-gradient(180deg,var(--carte),var(--carte2));border:1px solid #26303f;
+         border-radius:18px;padding:16px 16px 18px;margin-bottom:14px;
+         box-shadow:0 14px 34px rgba(0,0,0,.35)}
+  .carte h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--or);
+            margin:0 0 10px;font-weight:800}
+  .titre-tache{font-size:19px;font-weight:800;line-height:1.35;margin:0 0 10px}
+  .tache-txt{font-size:15px;line-height:1.6;color:#dbe3ee}
+  .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;
+       background:rgba(245,196,81,.14);color:var(--or);border:1px solid rgba(245,196,81,.35);
+       padding:4px 10px;border-radius:99px;margin-bottom:10px}
+  ul.blocs{list-style:none;padding:0;margin:0}
+  ul.blocs li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px dashed #26303f}
+  ul.blocs li:last-child{border-bottom:0}
+  .case{flex:0 0 26px;height:26px;border-radius:8px;border:2px solid #3a4658;margin-top:1px;
+        display:grid;place-items:center;font-size:15px;color:#0b0f17;font-weight:900;cursor:pointer;
+        transition:.15s}
+  .case.on{background:var(--vert);border-color:var(--vert)}
+  .bl-nom{font-weight:700;font-size:14px}
+  .bl-duree{font-size:12px;color:var(--or);font-weight:700}
+  .bl-desc{font-size:12.5px;color:var(--gris);line-height:1.45;margin-top:2px}
+  textarea{width:100%;min-height:96px;background:#0e141d;border:1px solid #2b3646;border-radius:12px;
+           color:var(--txt);padding:12px;font-family:inherit;font-size:15px;resize:vertical}
+  .btn{display:block;width:100%;padding:13px;border-radius:13px;border:0;font-weight:800;font-size:15px;
+       background:linear-gradient(180deg,var(--or2),var(--or));color:#1a1206;margin-top:10px;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--or);border:1px solid rgba(245,196,81,.4);margin-top:8px}
+  .phrase{font-size:15.5px;line-height:1.9;padding:12px 14px;background:#0e141d;border-radius:12px;
+          border:1px solid #2b3646;margin-bottom:9px}
+  .phrase .fr{display:block;font-size:12.5px;color:var(--gris);margin-top:6px;direction:ltr}
+  .jalon{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed #26303f;font-size:14px}
+  .jalon:last-child{border-bottom:0}
+  .j-num{flex:0 0 52px;font-weight:800;color:var(--or)}
+  .j-date{font-size:12px;color:var(--gris)}
+  .fini{opacity:.45;text-decoration:line-through}
+  .regle{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #26303f;font-size:14px;line-height:1.5}
+  .regle:last-child{border-bottom:0}
+  .r-num{flex:0 0 24px;height:24px;border-radius:50%;background:rgba(245,196,81,.16);color:var(--or);
+         display:grid;place-items:center;font-weight:800;font-size:12px}
+  a{color:var(--or)}
+  .lien{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px dashed #26303f;
+        font-size:14px;text-decoration:none;color:var(--txt)}
+  .lien:last-child{border-bottom:0}
+  .lien b{font-weight:600}
+  .lien span{color:var(--gris);font-size:12px;white-space:nowrap}
+  nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(11,15,23,.96);
+      backdrop-filter:blur(12px);border-top:1px solid #26303f;padding-bottom:env(safe-area-inset-bottom);z-index:9}
+  nav button{flex:1;background:none;border:0;color:var(--gris);font-family:inherit;font-size:11px;
+             font-weight:700;padding:12px 4px 13px;cursor:pointer;display:flex;flex-direction:column;
+             align-items:center;gap:4px;letter-spacing:.04em}
+  nav button i{font-size:18px;font-style:normal}
+  nav button.on{color:var(--or)}
+  .vue{display:none}.vue.on{display:block}
+  .pied{text-align:center;font-size:11px;color:#5d6b80;margin-top:22px;line-height:1.6}
+  .alerte{background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.35);color:#ffd4da;
+          border-radius:14px;padding:13px 15px;font-size:14px;line-height:1.55;margin-bottom:14px}
+  .ok{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.35);color:#c7f7e5;
+      border-radius:14px;padding:13px 15px;font-size:14px;line-height:1.55;margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="sur">CALL OF THE MATRIX · القَلْب</div>
+  <h1>MON ARABE — 90 JOURS</h1>
+  <div class="sous">FUSHA · 19 octobre 2026 → 16 janvier 2027</div>
+</header>
+
+<!-- ══════════════ AUJOURD'HUI ══════════════ -->
+<section class="vue on" id="v-aujourdhui">
+  <div class="jour">
+    <div class="num" id="numjour">J1<small>/90</small></div>
+  </div>
+  <div class="sous" style="text-align:center" id="ladate">—</div>
+  <div class="barre"><i id="prog" style="width:1%"></i></div>
+  <div class="meta"><span id="phase">PHASE 1</span><span id="reste">—</span></div>
+
+  <div id="alerte"></div>
+
+  <div class="carte">
+    <span class="tag" id="tagphase">PHASE 1 · FLUIDITÉ</span>
+    <h2 style="margin-bottom:6px">LA TÂCHE DU JOUR</h2>
+    <p class="titre-tache" id="tachetitre">—</p>
+    <div class="tache-txt" id="tachetxt">—</div>
+  </div>
+
+  <div class="carte">
+    <h2>LA SÉANCE — 50 MINUTES</h2>
+    <ul class="blocs" id="blocs"></ul>
+    <div style="font-size:12px;color:var(--gris);margin-top:10px;line-height:1.5">
+      Journée chargée ? 20 min suffisent. Aucun temps ? 5 min : 3 blocs récités + 3 phrases écrites.
+      <b style="color:var(--or)">On ne saute jamais le bloc 4.</b>
+    </div>
+  </div>
+
+  <div class="carte">
+    <h2>CE QUE TU M'ENVOIES CE SOIR</h2>
+    <div class="tache-txt" id="envoi">—</div>
+    <textarea id="mesphrases" placeholder="Tape ici tes 3 à 5 phrases (ou dicte-les)…"></textarea>
+    <button class="btn" id="btncopier">COPIER ET ENVOYER SUR TELEGRAM</button>
+    <div style="font-size:11.5px;color:var(--gris);margin-top:8px;text-align:center">
+      Je te rends les phrases corrigées, avec les harakat, et je n'explique que la règle que tu as heurtée.
+    </div>
+  </div>
+
+  <div class="pied">Version 1.0 · 18 octobre 2026 · <span id="verif"></span></div>
+</section>
+
+<!-- ══════════════ PROGRAMME ══════════════ -->
+<section class="vue" id="v-programme">
+  <div class="carte">
+    <h2>LES 3 PHASES</h2>
+    <div class="jalon"><div class="j-num">J1–21</div><div><div>PHASE 1 — Fluidité de lecture</div>
+      <div class="j-date">19 oct → 8 nov · lire vite, à voix haute, chronomètre</div></div></div>
+    <div class="jalon"><div class="j-num">J22–56</div><div><div>PHASE 2 — Les îles 1 et 2</div>
+      <div class="j-date">9 nov → 13 déc · métier, classe, foi, prière</div></div></div>
+    <div class="jalon"><div class="j-num">J57–90</div><div><div>PHASE 3 — Comprendre et produire</div>
+      <div class="j-date">14 déc → 16 jan · famille, foot, récit, actualité</div></div></div>
+  </div>
+
+  <div class="carte">
+    <h2>LES JALONS — LA PREUVE</h2>
+    <div id="jalons"></div>
+  </div>
+
+  <div class="carte">
+    <h2>LES 4 ÎLES — LE CARBURANT</h2>
+    <div class="jalon"><div class="j-num">1</div><div><div>Mon métier</div>
+      <div class="j-date">l'école, la classe, les élèves, la lecture</div></div></div>
+    <div class="jalon"><div class="j-num">2</div><div><div>Ma foi</div>
+      <div class="j-date">le Coran, la prière, les douas, la mosquée</div></div></div>
+    <div class="jalon"><div class="j-num">3</div><div><div>Ma famille</div>
+      <div class="j-date">femme, enfants, maison, la boutique</div></div></div>
+    <div class="jalon"><div class="j-num">4</div><div><div>Mon sport</div>
+      <div class="j-date">le foot, les matchs, commenter</div></div></div>
+  </div>
+
+  <div class="carte">
+    <h2>LES PHRASES DE SURVIE — SEMAINE 1</h2>
+    <div class="phrase"><span class="ar">أَنَا مُعَلِّمٌ</span><span class="fr">Je suis enseignant.</span></div>
+    <div class="phrase"><span class="ar">أَسْكُنُ فِي مَايُوت</span><span class="fr">J'habite à Mayotte.</span></div>
+    <div class="phrase"><span class="ar">كَيْفَ حَالُكَ</span><span class="fr">Comment vas-tu ?</span></div>
+    <div class="phrase"><span class="ar">مَا اسْمُكَ</span><span class="fr">Comment t'appelles-tu ?</span></div>
+    <div class="phrase"><span class="ar">مِنْ فَضْلِكَ</span><span class="fr">S'il te plaît.</span></div>
+    <div class="phrase"><span class="ar">شُكْرًا جَزِيلًا</span><span class="fr">Merci beaucoup.</span></div>
+    <div class="phrase"><span class="ar">لَا أَعْرِفُ</span><span class="fr">Je ne sais pas.</span></div>
+    <div class="phrase"><span class="ar">أُرِيدُ أَنْ أَتَعَلَّمَ الْعَرَبِيَّةَ</span><span class="fr">Je veux apprendre l'arabe.</span></div>
+    <div class="phrase"><span class="ar">أَنَا أُحِبُّ كُرَةَ الْقَدَمِ</span><span class="fr">J'aime le football.</span></div>
+    <div class="phrase"><span class="ar">الْحَمْدُ لِلَّهِ</span><span class="fr">Louange à Allah.</span></div>
+  </div>
+</section>
+
+<!-- ══════════════ RÈGLES ══════════════ -->
+<section class="vue" id="v-regles">
+  <div class="carte">
+    <h2>LES 7 RÈGLES D'OR</h2>
+    <div id="regles"></div>
+  </div>
+  <div class="carte">
+    <h2>LA RÈGLE DE LECTURE</h2>
+    <div class="tache-txt">On ne relit <b>jamais</b> un texte en silence en suivant du doigt, lettre par lettre.
+      À voix haute, chronomètre, par groupes de mots. Toujours.</div>
+  </div>
+  <div class="carte">
+    <h2>CE QUI EST ÉCARTÉ</h2>
+    <div class="tache-txt">« News in Slow Arabic » : le domaine est mort.
+      Les applications type Duolingo pour l'arabe : elles n'enseignent ni la lecture du Coran ni les harakat.
+      <b>Ne perds pas de temps dessus.</b></div>
+  </div>
+</section>
+
+<!-- ══════════════ RESSOURCES ══════════════ -->
+<section class="vue" id="v-ressources">
+  <div class="carte">
+    <h2>LES RESSOURCES — TOUTES GRATUITES</h2>
+    <div id="ressources"></div>
+  </div>
+  <div class="carte">
+    <h2>PAGES DE GRAMMAIRE (seulement le jour où tu bloques)</h2>
+    <div id="grammaires"></div>
+  </div>
+</section>
+
+<nav>
+  <button class="on" data-v="aujourdhui"><i>◎</i>AUJOURD'HUI</button>
+  <button data-v="programme"><i>▤</i>PROGRAMME</button>
+  <button data-v="regles"><i>✦</i>RÈGLES</button>
+  <button data-v="ressources"><i>↗</i>LIENS</button>
+</nav>
+
+<script>
+const DEBUT = new Date(2026, 9, 19);          // 19 octobre 2026 = J1
+const FIN   = new Date(2027, 0, 16);          // 16 janvier 2027 = J90
+const JOURS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+const MOIS  = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+
+const P1 = {
+ 1:"Diagnostic : 3 lectures chronométrées, notées dans le tableau. C'est ton point de départ, il ne se juge pas.",
+ 2:"Paires de lettres : ت ث ذ / س ش — 15 mots lus à voix haute.",
+ 3:"Paires de lettres : ص ض / ح خ / ع غ — 15 mots.",
+ 4:"Paires de lettres : ك ق / د ذ ر ز / ب ن ي — 15 mots.",
+ 5:"Lecture répétée : sourate Al-Ikhlas, 4 fois, la dernière chronométrée.",
+ 6:"Lecture répétée : sourate Al-Falaq, 4 fois.",
+ 7:"Lecture répétée : sourate An-Nas, 4 fois. On inscrit les temps.",
+ 8:"Lecture assistée : Al-Mulk. On écoute, on suit des yeux, on lit à l'unisson.",
+ 9:"Lecture assistée : le même passage, puis lecture seule chronométrée.",
+ 10:"Lecture assistée : un passage du juz 30 que tu connais mal.",
+ 11:"Lecture par blocs : une page du Coran, en groupes de 2 à 3 mots.",
+ 12:"Lecture par blocs : la même page, sans pause entre les groupes.",
+ 13:"Lecture par blocs : une page inconnue, même méthode.",
+ 14:"Mesure intermédiaire : 3 lectures chronométrées. On compare au J1.",
+ 15:"Fins de mots : on force les harakat, on n'avale pas les voyelles finales.",
+ 16:"Fins de mots : idem, sur une page entière.",
+ 17:"Lecture répétée et assistée combinées : un passage inconnu, 6 minutes.",
+ 18:"Page inconnue du juz 30, chronométrée. On note temps et hésitations.",
+ 19:"Une autre page inconnue. Même protocole.",
+ 20:"Enregistre-toi sur 10 lignes, écoute, repère les trois endroits où tu butes.",
+ 21:"JALON : une page inconnue, notée. Comparaison finale avec le J1."
+};
+
+const P2 = [
+ {a:22,b:28,ile:"Mon métier",        gram:"Pronoms, genre, phrases nominales", prod:"Se présenter en 6 phrases"},
+ {a:29,b:35,ile:"La classe, les élèves", gram:"Pluriels, démonstratifs",         prod:"Décrire sa classe en 6 phrases"},
+ {a:36,b:42,ile:"Ma foi, le Coran",  gram:"Possession (iḍāfa), adjectifs",       prod:"Raconter sa lecture du matin"},
+ {a:43,b:49,ile:"La prière et les douas", gram:"Verbes au présent",              prod:"Raconter sa journée de prières"},
+ {a:50,b:56,ile:"La famille et la maison", gram:"Verbes au passé, chiffres jusqu'à 20", prod:"Présenter sa famille en 8 phrases"}
+];
+
+const P3 = [
+ {a:57,b:63,focus:"Le foot et le sport", ecoute:"Commentaire de match en arabe", prod:"Raconter un match au passé"},
+ {a:64,b:70,focus:"La journée entière",  ecoute:"Une histoire facile complète",  prod:"15 phrases enchaînées"},
+ {a:71,b:77,focus:"Le récit",            ecoute:"Un épisode d'arabe facile sans sous-titres", prod:"Raconter un souvenir de la semaine"},
+ {a:78,b:84,focus:"L'actualité simple",  ecoute:"Un article court de BBC ou DW Arabe", prod:"Résumer l'article en 5 phrases"},
+ {a:85,b:90,focus:"Consolidation",       ecoute:"Rien de nouveau, on révise tout", prod:"JALON J90 : test complet"}
+];
+
+const JALONS = [
+ [14,"1er novembre","Temps de lecture amélioré par rapport au J1"],
+ [21,"8 novembre","Une page inconnue lue avec au moins 20 % de temps en moins"],
+ [30,"17 novembre","6 phrases justes sur soi, à l'écrit"],
+ [42,"29 novembre","Comprendre un audio simple sans sous-titres"],
+ [60,"17 décembre","20 minutes de conversation compréhensible"],
+ [75,"1er janvier","Résumer un article court"],
+ [90,"16 janvier","Test complet : page inconnue + 5 min de conversation + 10 phrases écrites"]
+];
+
+const REGLES = [
+ "Jamais de liste de mots sèche. Un mot s'apprend dans un bloc : pas « vouloir », mais « je veux ».",
+ "Jamais 100 % de compréhension. Si tout est clair, on n'apprend rien. Si rien n'est clair, on saute.",
+ "La grammaire vient toujours en réponse à une erreur réelle, jamais par plaisir.",
+ "Un jour raté ne se rattrape pas, il s'oublie. Jamais deux jours de suite sans rien.",
+ "15 minutes valent infiniment mieux que zéro. Le pire ennemi, c'est la séance idéale non faite.",
+ "Rien n'est appris tant que ce n'est pas ressorti. Le bloc 4 n'est pas une option.",
+ "On ne change pas de méthode avant J90. Changer de méthode est la façon la plus fréquente de ne jamais apprendre."
+];
+
+const BLOCS = [
+ ["Bloc 1 — Fluidité à voix haute","10 min","On lit vite et fort, sans chercher le sens. Chronomètre en main."],
+ ["Bloc 2 — Chunks","10 min","Des blocs de phrases, jamais des mots seuls."],
+ ["Bloc 3 — Input compréhensible","20 min","Écoute active : 70 à 80 % compris grâce au contexte."],
+ ["Bloc 4 — Production","10 min","Tu écris ou tu parles — et tu m'envoies. C'est le bloc qui fait apprendre."]
+];
+
+const RESSOURCES = [
+ ["Learn Arabic Online","Grammaire classique, pronoms, PDF débutant","https://www.learnarabiconline.com/"],
+ ["Arabic Without Walls","Cours de Fusha complet d'université, avec audio","https://arabicwithoutwalls.ucdavis.edu/"],
+ ["Arabic101 (YouTube)","Lire le Coran correctement, grammaire coranique","https://www.youtube.com/@arabic101"],
+ ["Manuel Madinah, tome 1","Le classique mondial de la Fusha (PDF)","https://archive.org/details/madina-book-1-arabic-text-dr-v-abdurrahim"],
+ ["LQ Toronto","Les vidéos du manuel Madinah, cours par cours","https://www.lqtoronto.com/"],
+ ["Quran.com","Texte mot à mot, sens et récitateurs","https://quran.com/al-fatiha"],
+ ["Corpus coranique","La grammaire de chaque mot du Coran","https://corpus.quran.com/wordbyword.jsp"],
+ ["Tatoeba","Des milliers de phrases réelles traduites","https://tatoeba.org/en/sentences/search?query=&from=ara"],
+ ["Anki","La répétition espacée : ta mémoire à long terme","https://apps.ankiweb.net/"],
+ ["HelloTalk","Des partenaires natifs, à l'écrit et en vocal","https://www.hellotalk.com/"],
+ ["GLOSS","Leçons d'arabe standard avec audio","https://gloss.dliflc.edu/"],
+ ["BBC · DW · Al Jazeera","L'actualité en Fusha, pour la phase 3","https://www.bbc.com/arabic"]
+];
+
+const GRAMMAIRES = [
+ ["Les pronoms","https://www.learnarabiconline.com/arabic-pronouns/"],
+ ["Le genre","https://www.learnarabiconline.com/gender/"],
+ ["Les pluriels","https://www.learnarabiconline.com/arabic-plurals/"],
+ ["Phrases nominales","https://www.learnarabiconline.com/nominal-sentences/"],
+ ["Phrases verbales","https://www.learnarabiconline.com/verbal-sentences/"],
+ ["La conjugaison","https://www.learnarabiconline.com/verb-conjugation/"],
+ ["Les nombres","https://www.learnarabiconline.com/arabic-numbers/"]
+];
+
+/* ─────────── calculs ─────────── */
+const AUJ = new Date(); AUJ.setHours(0,0,0,0);
+function jourDe(d){ return Math.floor((d - DEBUT)/86400000) + 1; }
+let n = jourDe(AUJ);
+const avant = n < 1;
+n = Math.max(1, Math.min(90, n));
+const dateDe = k => new Date(DEBUT.getTime() + (k-1)*86400000);
+const enClair = d => JOURS[d.getDay()] + " " + d.getDate() + " " + MOIS[d.getMonth()] + " " + d.getFullYear();
+
+function tache(k){
+  if(k <= 21) return {tag:"PHASE 1 · FLUIDITÉ DE LECTURE", titre:"Exercice du jour", txt:P1[k]};
+  if(k <= 56){
+    const w = P2.find(x => k >= x.a && k <= x.b);
+    return {tag:"PHASE 2 · L'ÎLE", titre:w.ile,
+      txt:"Fluidité toujours : 10 min de lecture chronométrée.\nGrammaire, uniquement si tu bloques : " + w.gram +
+          ".\nProduction de la semaine : " + w.prod + "."};
+  }
+  const w = P3.find(x => k >= x.a && k <= x.b);
+  return {tag:"PHASE 3 · COMPRENDRE ET PRODUIRE", titre:w.focus,
+    txt:"Écoute et lecture : " + w.ecoute + ".\nProduction : " + w.prod + "."};
+}
+
+function envoiDe(k){
+  if(k <= 21) return "Envoie-moi un vocal de lecture de 30 secondes, et tes 3 mesures du jour (texte lu, temps, mots par minute).";
+  if(k <= 56){
+    const w = P2.find(x => k >= x.a && x.a <= k && k <= x.b);
+    return "Écris 3 à 5 phrases sur : " + w.ile + ". Objectif de la semaine : " + w.prod + ".";
+  }
+  const w = P3.find(x => k >= x.a && k <= x.b);
+  return "Écris 5 phrases minimum : " + w.prod + ". Envoie aussi un vocal de 30 secondes de lecture.";
+}
+
+/* ─────────── rendu ─────────── */
+document.getElementById("numjour").innerHTML = "J" + n + "<small>/90</small>";
+document.getElementById("ladate").textContent = enClair(dateDe(n));
+document.getElementById("prog").style.width = (n/90*100).toFixed(1) + "%";
+const ph = n<=21?1:(n<=56?2:3);
+document.getElementById("phase").textContent = "PHASE " + ph;
+document.getElementById("reste").textContent = "reste " + (90-n) + " jour" + (90-n>1?"s":"");
+const t = tache(n);
+document.getElementById("tagphase").textContent = t.tag;
+document.getElementById("tachetitre").textContent = t.titre;
+document.getElementById("tachetxt").textContent = t.txt;
+document.getElementById("envoi").textContent = envoiDe(n);
+
+if(avant){
+  document.getElementById("alerte").innerHTML =
+    '<div class="alerte">Le programme commence le <b>lundi 19 octobre 2026</b>. ' +
+    'Jusque-là : relis la phase 1 et prépare ton chronomètre.</div>';
+}
+else if(n === 90){
+  document.getElementById("alerte").innerHTML =
+    '<div class="ok">Dernier jour. Le test complet, et on fait le bilan des 90 jours.</div>';
+}
+
+/* les blocs + mémorisation du jour */
+const cle = "arabe_" + dateDe(n).toISOString().slice(0,10);
+let fait = JSON.parse(localStorage.getItem(cle) || "[]");
+const ul = document.getElementById("blocs");
+BLOCS.forEach(([nom,duree,desc],i)=>{
+  const on = fait.includes(i);
+  const li = document.createElement("li");
+  li.innerHTML = '<div class="case'+(on?' on':'')+'" data-i="'+i+'">'+(on?'✓':'')+'</div>'+
+    '<div><div><span class="bl-nom">'+nom+'</span> · <span class="bl-duree">'+duree+'</span></div>'+
+    '<div class="bl-desc">'+desc+'</div></div>';
+  ul.appendChild(li);
+});
+ul.addEventListener("click", e=>{
+  const c = e.target.closest(".case"); if(!c) return;
+  const i = +c.dataset.i;
+  fait = fait.includes(i) ? fait.filter(x=>x!==i) : fait.concat(i);
+  localStorage.setItem(cle, JSON.stringify(fait));
+  c.classList.toggle("on"); c.textContent = c.classList.contains("on") ? "✓" : "";
+});
+
+/* bouton copier */
+document.getElementById("btncopier").addEventListener("click", async ()=>{
+  const v = document.getElementById("mesphrases").value.trim();
+  const b = document.getElementById("btncopier");
+  if(!v){ b.textContent = "ECRIS D'ABORD TES PHRASES"; setTimeout(()=>b.textContent="COPIER ET ENVOYER SUR TELEGRAM",1800); return; }
+  const msg = "ARABE — J" + n + " (" + enClair(dateDe(n)) + ")\n" + v;
+  try{ await navigator.clipboard.writeText(msg); b.textContent = "COPIÉ — COLLE-LE DANS TELEGRAM"; }
+  catch(e){ b.textContent = "SELECTIONNE LE TEXTE ET COPIE-LE"; }
+  setTimeout(()=>b.textContent="COPIER ET ENVOYER SUR TELEGRAM", 2600);
+});
+
+/* jalons */
+const jl = document.getElementById("jalons");
+JALONS.forEach(([k,d,p])=>{
+  const div = document.createElement("div");
+  div.className = "jalon" + (k<=n?" fini":"");
+  div.innerHTML = '<div class="j-num">J'+k+'</div><div><div>'+p+'</div><div class="j-date">'+d+'</div></div>';
+  jl.appendChild(div);
+});
+/* règles */
+const rg = document.getElementById("regles");
+REGLES.forEach((r,i)=>{
+  const div = document.createElement("div");
+  div.className = "regle";
+  div.innerHTML = '<div class="r-num">'+(i+1)+'</div><div>'+r+'</div>';
+  rg.appendChild(div);
+});
+/* ressources */
+const rs = document.getElementById("ressources");
+RESSOURCES.forEach(([nom,quoi,url])=>{
+  const a = document.createElement("a");
+  a.className = "lien"; a.href = url; a.target = "_blank"; a.rel = "noopener";
+  a.innerHTML = '<b>'+nom+'</b><span>'+quoi+'</span>';
+  rs.appendChild(a);
+});
+const gr = document.getElementById("grammaires");
+GRAMMAIRES.forEach(([nom,url])=>{
+  const a = document.createElement("a");
+  a.className = "lien"; a.href = url; a.target = "_blank"; a.rel = "noopener";
+  a.innerHTML = '<b>'+nom+'</b><span>↗</span>';
+  gr.appendChild(a);
+});
+
+/* navigation */
+document.querySelectorAll("nav button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".vue").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    document.getElementById("v-"+b.dataset.v).classList.add("on");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* version affichée : si le lien semble ne pas marcher, c'est le cache du téléphone */
+document.getElementById("verif").textContent = "build " + document.lastModified.slice(0,10).replace(/-/g,"");
+</script>
+</body>
+</html>

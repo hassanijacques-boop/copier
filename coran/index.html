@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0f17">
-<title>MON CORAN · 180 jours</title>
+<title>MON CORAN · 365 jours</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -89,8 +89,8 @@
 
 <header>
   <div class="sur">CALL OF THE MATRIX · القَلْب</div>
-  <h1>MON CORAN — 180 JOURS</h1>
-  <div class="sous" id="sous0">Khatm complet · 604 pages · 6 mois</div>
+  <h1>MON CORAN — 365 JOURS</h1>
+  <div class="sous" id="sous0">Khatm complet · 604 pages · 1 an</div>
 </header>
 
 <section class="vue on" id="v-aujourdhui">
@@ -139,7 +139,7 @@
     <button class="btn" id="btncopier">COPIER ET ENVOYER SUR TELEGRAM</button>
   </div>
 
-  <div class="pied">Version 1.0 · 18 octobre 2026 · mushaf de 604 pages · <span id="verif"></span></div>
+  <div class="pied">Version 2.0 · rythme 1 an · mushaf de 604 pages · <span id="verif"></span></div>
 </section>
 
 <section class="vue" id="v-programme">
@@ -149,7 +149,7 @@
   </div>
   <div class="carte">
     <h2>LES 26 SOURATES À MÉMORISER</h2>
-    <div class="tache-txt" style="margin-bottom:8px">Une par semaine, de la fin du mushaf vers l'avant. On révise toujours les trois précédentes.</div>
+    <div class="tache-txt" style="margin-bottom:8px">Une par <b>quinzaine</b>, de la fin du mushaf vers l'avant. On révise toujours les trois précédentes.</div>
     <div id="mems"></div>
   </div>
   <div class="carte">
@@ -158,10 +158,10 @@
   </div>
   <div class="carte">
     <h2>TON RYTHME</h2>
-    <div class="tache-txt">604 pages en 180 jours = <b>3 à 4 pages par jour</b>.
-      Sur un mushaf normal, c'est <b>20 à 30 minutes</b> à voix haute.<br><br>
-      Trop rapide ? Dis-le-moi et je passe le khatm à <b>1 an</b> (2 pages/jour) ou à
-      <b>3 mois</b> (7 pages/jour).</div>
+    <div class="tache-txt">604 pages en <b>365 jours</b> = <b>1 à 2 pages par jour</b>.
+      Sur un mushaf normal, c'est <b>10 à 15 minutes</b> à voix haute.<br><br>
+      C'est le rythme que tu as choisi : <b>un an</b>. Il tient même les jours de classe,
+      les jours de fatigue et les jours où la maison ne dort pas.</div>
   </div>
 </section>
 
@@ -207,7 +207,7 @@ const S_NOM=["Al-Faatiha", "Al-Baqara", "Aal-i-Imraan", "An-Nisaa", "Al-Maaida",
 const S_AYA=[7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6];
 
 
-const TOTAL = 180;
+const TOTAL = 365;
 const DEBUT = new Date(2026, 9, 19);
 const JOURS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
@@ -217,16 +217,14 @@ const enClair = d => JOURS[d.getDay()] + " " + d.getDate() + " " + MOIS[d.getMon
 const finPage = s => (s < 114 ? S_SP[s+1] - 1 : 604);
 
 /* pages du jour */
-function jourDuJuz(d){
-  const j = Math.min(30, Math.floor((d-1)/6) + 1);
-  const k = (d-1) % 6;                      // 0..5
-  const a = JUZ[j-1];
-  const b = (j < 30) ? JUZ[j] - 1 : 604;
-  const n = b - a + 1, base = Math.floor(n/6), r = n % 6;
-  const tailles = [0,1,2,3,4,5].map(i => base + (i < r ? 1 : 0));
-  const start = a + tailles.slice(0,k).reduce((x,y)=>x+y,0);
-  return {juz:j, jourDansJuz:k+1, a:start, b:start + tailles[k] - 1};
+function pagesDuJour(d){
+  const a = Math.floor((d-1)*604/TOTAL) + 1;
+  const b = Math.max(a, Math.floor(d*604/TOTAL));
+  let j = 1;
+  for(let k=30;k>=1;k--){ if(JUZ[k-1] <= a){ j=k; break; } }
+  return {juz:j, a:a, b:b};
 }
+function jourDePage(p){ let d=1; while(Math.floor(d*604/TOTAL) < p) d++; return d; }
 function souratesDe(a,b){
   const out=[];
   for(let s=1;s<=114;s++){
@@ -259,8 +257,8 @@ let n = Math.max(1, Math.min(TOTAL, brut));
 document.getElementById("numjour").innerHTML = "J" + n + "<small>/" + TOTAL + "</small>";
 document.getElementById("ladate").textContent = enClair(dateDe(n));
 document.getElementById("prog").style.width = (n/TOTAL*100).toFixed(1) + "%";
-const pj = jourDuJuz(n);
-document.getElementById("phase").textContent = "JUZ " + pj.juz + " · jour " + pj.jourDansJuz + "/6";
+const pj = pagesDuJour(n);
+document.getElementById("phase").textContent = "JUZ " + pj.juz;
 document.getElementById("reste").textContent = "reste " + (TOTAL-n) + " jour" + (TOTAL-n>1?"s":"");
 
 document.getElementById("pages").textContent = (pj.a===pj.b) ? ("Page " + pj.a) : ("Pages " + pj.a + " → " + pj.b);
@@ -279,17 +277,17 @@ document.getElementById("flutexte").innerHTML =
   "Quatre lectures : une pour déchiffrer, une à voix haute, une en suivant des yeux, " +
   "et <b>la dernière chronométrée</b>. C'est la quatrième qui progresse.";
 
-const sem = Math.floor((n-1)/7) + 1;
-const ms = MEM[Math.min(MEM.length-1, sem-1)];
+const sem = Math.min(MEM.length, Math.floor((n-1)/14) + 1);
+const ms = MEM[sem-1];
 const rev = [1,2,3].map(k => MEM[Math.max(0, Math.min(MEM.length-1, sem-1-k))]);
-document.getElementById("memsourate").textContent = "Semaine " + sem + " — sourate " + nom(ms) + " (" + S_AYA[ms-1] + " versets)";
+document.getElementById("memsourate").textContent = "Quinzaine " + sem + " — sourate " + nom(ms) + " (" + S_AYA[ms-1] + " versets)";
 document.getElementById("memtexte").innerHTML =
   "Aujourd'hui : tu répètes les <b>3 premiers versets</b> à voix haute, dix fois, en regardant le texte les trois premières fois, " +
   "puis sans regarder.<br>Révision : " + rev.map(s=>nom(s)).join(" · ") + ".";
 
 /* séance */
 const SEANCE = [
-  ["1 — La lecture du jour","20-30 min","Tes pages, à voix haute, sans t'arrêter."],
+  ["1 — La lecture du jour","10-15 min","Tes pages, à voix haute, sans t'arrêter."],
   ["2 — La récitation","10 min","La sourate du jour, quatre fois, la dernière chronométrée."],
   ["3 — La mémorisation","10 min","Les versets du jour, dix répétitions, puis sans regarder."],
   ["4 — Ce que tu m'envoies","2 min","Le nombre d'hésitations et la page qui bloque."]
@@ -344,12 +342,12 @@ if(avant){
 
 /* jalons */
 const JALONS = [
-  [30,5,"Juz 5 — tu as fini 5 juz"],
-  [60,10,"Juz 10 — un tiers du Coran"],
-  [90,15,"Juz 15 — la moitié du mushaf"],
-  [120,20,"Juz 20"],
-  [150,25,"Juz 25 — il reste 5 juz"],
-  [180,30,"KHATM — les 604 pages lues"]
+  [jourDePage(102),5,"Juz 5 — tu as fini 5 juz"],
+  [jourDePage(201),10,"Juz 10 — un tiers du Coran"],
+  [jourDePage(302),15,"Juz 15 — la moitié du mushaf"],
+  [jourDePage(403),20,"Juz 20"],
+  [jourDePage(502),25,"Juz 25 — il reste 5 juz"],
+  [365,30,"KHATM — les 604 pages lues"]
 ];
 const jl = document.getElementById("jalons");
 JALONS.forEach(([k,j,lib])=>{

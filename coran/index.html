@@ -3,7 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#0b0f17">
+<script>var BUILD = "20261018-4";</script>
 <title>MON CORAN · 365 jours</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -413,7 +417,22 @@ document.querySelectorAll("nav button").forEach(b=>{
     window.scrollTo({top:0,behavior:"smooth"});
   });
 });
-document.getElementById("verif").textContent = "build " + document.lastModified.slice(0,10).replace(/-/g,"");
+document.getElementById("verif").textContent = "build " + BUILD;
+</script>
+<script>
+/* ── ANTI-CACHE : la page se met à jour toute seule ──
+   Elle compare sa version à celle de version.txt (lue sans cache).
+   Si une nouvelle version existe, elle se recharge une seule fois avec ?v=N. */
+fetch("version.txt?t=" + Date.now(), {cache: "no-store"})
+  .then(r => r.text())
+  .then(v => {
+    v = (v || "").trim();
+    if (!v || v === BUILD) return;
+    if (sessionStorage.getItem("maj_" + v)) return;
+    sessionStorage.setItem("maj_" + v, "1");
+    location.replace(location.pathname + "?v=" + encodeURIComponent(v));
+  })
+  .catch(() => {});
 </script>
 </body>
 </html>

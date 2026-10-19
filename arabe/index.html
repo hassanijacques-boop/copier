@@ -116,6 +116,14 @@
   </div>
 
   <div class="carte">
+    <span class="tag" style="background:rgba(52,211,153,.14);color:#6ee7b7;border-color:rgba(52,211,153,.4)">LE TEXTE À LIRE</span>
+    <p class="titre-tache" id="texttitre">—</p>
+    <div class="tache-txt" id="textnote">—</div>
+    <a class="btn ghost" id="textlien" href="#" target="_blank" rel="noopener"
+       style="text-align:center;text-decoration:none">OUVRIR LE TEXTE ↗</a>
+  </div>
+
+  <div class="carte">
     <h2>LA SÉANCE — 50 MINUTES</h2>
     <ul class="blocs" id="blocs"></ul>
     <div style="font-size:12px;color:var(--gris);margin-top:10px;line-height:1.5">
@@ -368,6 +376,83 @@ document.getElementById("tagphase").textContent = t.tag;
 document.getElementById("tachetitre").textContent = t.titre;
 document.getElementById("tachetxt").textContent = t.txt;
 document.getElementById("envoi").textContent = envoiDe(n);
+
+/* ── LE TEXTE À LIRE AUJOURD'HUI — le lien direct, pas un renvoi ── */
+const C_DEBUT = new Date(2026, 9, 19), C_TOTAL = 365;
+const JUZ_C = [1,22,42,62,82,102,121,142,162,182,201,222,242,262,282,302,322,342,362,382,
+               402,422,442,462,482,502,522,542,562,582];
+function pageCoran(){
+  let d = Math.floor((AUJ - C_DEBUT)/86400000) + 1;
+  d = Math.max(1, Math.min(C_TOTAL, d));
+  return Math.max(1, Math.floor((d-1)*604/C_TOTAL) + 1);
+}
+const Q = n => "https://quran.com/" + n;
+
+function texteDuJour(k){
+  const pg = pageCoran();
+  const pageDuJour = {t:"La page du jour du mushaf", url:"https://quran.com/page/" + pg,
+    note:"C'est la même page que dans Mon Coran — les deux programmes lisent le même texte."};
+  if(k === 1) return {t:"Un texte que tu déchiffres mal",
+    note:"Ouvre la page du jour et lis-la TROIS fois à voix haute, chronomètre en main. " +
+         "Note le nombre de mots lus en une minute : c'est ton point de départ.",
+    url:pageDuJour.url};
+  if(k >= 2 && k <= 4){
+    const paires = {2:"ت ث ذ / س ش", 3:"ص ض / ح خ / ع غ", 4:"ك ق / د ذ ر ز / ب ن ي"}[k];
+    return {t:"La page du jour — chasse aux paires",
+      note:"Sur cette page, cherche les paires " + paires + " et lis 15 mots à voix haute. " +
+           "Tu ne cherches pas le sens : tu entraînes l'œil.",
+      url:pageDuJour.url};
+  }
+  const sourates = {5:[112, "Al-Ikhlas"], 6:[113, "Al-Falaq"], 7:[114, "An-Nas"],
+                    8:[67, "Al-Mulk"], 9:[67, "Al-Mulk"], 10:[67, "Al-Mulk"]};
+  if(sourates[k]){
+    const [num, nomS] = sourates[k];
+    return {t:"Sourate " + nomS,
+      note:"Lis-la quatre fois : une pour déchiffrer, une à voix haute, une en suivant des yeux, " +
+           "et la dernière chronométrée.",
+      url:Q(num)};
+  }
+  if(k <= 21) return {t:"La page du jour du mushaf",
+    note:"Lecture à voix haute, en groupes de 2 à 3 mots. La dernière lecture est chronométrée.",
+    url:pageDuJour.url};
+
+  const iles = [
+    [22, 28, "Madinah Arabic — leçon 1", "https://madinaharabic.com/free-content",
+     "Les phrases de présentation : lis-les à voix haute, puis reprends-les sans regarder."],
+    [29, 35, "Madinah Arabic — les leçons de grammaire", "https://madinaharabic.com/free-content",
+     "Pluriels et démonstratifs : lis les exemples à voix haute, jamais la règle seule."],
+    [36, 42, "Quran.com — la page du jour", null,
+     "Ta lecture du matin, mot à mot. Ouvre aussi le Corpus coranique pour les mots qui résistent."],
+    [43, 49, "Madinah Arabic — les verbes", "https://madinaharabic.com/free-content",
+     "Le présent : lis les conjugaisons à voix haute, puis dis ta journée de prières."],
+    [50, 56, "Tatoeba — des phrases réelles", "https://tatoeba.org/en/sentences/search?query=&from=ara",
+     "Cherche 10 phrases sur la famille, lis-les à voix haute, garde-en 8."],
+  ];
+  for(const [a,b,titre,url,note] of iles){
+    if(k >= a && k <= b) return {t:titre, note:note, url: url || pageDuJour.url};
+  }
+  const p3 = [
+    [57, 63, "BBC Arabe — le sport", "https://www.bbc.com/arabic",
+     "Un titre de sport, lu à voix haute. Tu ne comprends pas tout : c'est normal et c'est voulu."],
+    [64, 70, "Arabic Without Walls — une histoire facile", "https://arabicwithoutwalls.ucdavis.edu/",
+     "Écoute et suis le texte des yeux, puis lis à l'unisson, puis seul."],
+    [71, 77, "Arabic Without Walls — le récit", "https://arabicwithoutwalls.ucdavis.edu/",
+     "Un épisode sans sous-titres. Puis raconte-le à voix haute en 5 phrases."],
+    [78, 84, "DW Arabe — un article court", "https://www.dw.com/ar",
+     "Un article court. Lis-le deux fois, puis résume-le en 5 phrases."],
+    [85, 90, "Quran.com — révise tout", null,
+     "Rien de nouveau : relis les sourates que tu as mémorisées, à voix haute, sans regarder."],
+  ];
+  for(const [a,b,titre,url,note] of p3){
+    if(k >= a && k <= b) return {t:titre, note:note, url: url || pageDuJour.url};
+  }
+  return pageDuJour;
+}
+
+const tx = texteDuJour(n);
+document.getElementById("texttitre").textContent = tx.t;
+document.getElementById("textnote").textContent = tx.note;
+document.getElementById("textlien").href = tx.url;
 
 if(avant){
   document.getElementById("alerte").innerHTML =

@@ -112,12 +112,14 @@
     <h2>LA RÉCITATION — 10 MINUTES</h2>
     <p class="sourate" id="flusourate">—</p>
     <div class="tache-txt" id="flutexte"></div>
+    <a class="btn ghost" id="flulien" href="#" target="_blank" rel="noopener">OUVRIR LA SOURATE SUR QURAN.COM ↗</a>
   </div>
 
   <div class="carte">
     <h2>LA MÉMORISATION — 10 MINUTES</h2>
     <p class="sourate" id="memsourate">—</p>
     <div class="tache-txt" id="memtexte"></div>
+    <a class="btn ghost" id="memlien" href="#" target="_blank" rel="noopener">OUVRIR LA SOURATE À MÉMORISER ↗</a>
   </div>
 
   <div class="carte">
@@ -284,6 +286,9 @@ document.getElementById("memsourate").textContent = "Quinzaine " + sem + " — s
 document.getElementById("memtexte").innerHTML =
   "Aujourd'hui : tu répètes les <b>3 premiers versets</b> à voix haute, dix fois, en regardant le texte les trois premières fois, " +
   "puis sans regarder.<br>Révision : " + rev.map(s=>nom(s)).join(" · ") + ".";
+
+document.getElementById("flulien").href = "https://quran.com/" + rs;
+document.getElementById("memlien").href = "https://quran.com/" + ms;
 
 /* séance */
 const SEANCE = [

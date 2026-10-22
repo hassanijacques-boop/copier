@@ -98,7 +98,7 @@
 <header>
   <div class="sur">CALL OF THE MATRIX · القَلْب</div>
   <h1>MON ARABE — 90 JOURS</h1>
-  <div class="sous">FUSHA · 19 octobre 2026 → 16 janvier 2027</div>
+  <div class="sous">⏸ EN PAUSE · le programme reprendra au <b>jour 2</b> — en attendant, c'est <b>Mon Coran</b> qui passe devant</div>
 </header>
 
 <!-- ══════════════ AUJOURD'HUI ══════════════ -->
@@ -339,7 +339,9 @@ const GRAMMAIRES = [
 /* ─────────── calculs ─────────── */
 const AUJ = new Date(); AUJ.setHours(0,0,0,0);
 function jourDe(d){ return Math.floor((d - DEBUT)/86400000) + 1; }
-let n = jourDe(AUJ);
+/* ⏸ ARABE EN PAUSE depuis le 22/10/2026 : le jour est FIGÉ au 2.
+   Pour reprendre : remettre `let n = jourDe(AUJ);` et DEBUT = date de reprise - 1 jour. */
+let n = 2;
 const avant = n < 1;
 n = Math.max(1, Math.min(90, n));
 const dateDe = k => new Date(DEBUT.getTime() + (k-1)*86400000);
@@ -382,7 +384,7 @@ document.getElementById("tachetxt").textContent = t.txt;
 document.getElementById("envoi").textContent = envoiDe(n);
 
 /* ── LE TEXTE À LIRE AUJOURD'HUI — le lien direct, pas un renvoi ── */
-const C_DEBUT = new Date(2026, 9, 19), C_TOTAL = 365;
+const C_DEBUT = new Date(2026, 9, 22), C_TOTAL = 365;
 const JUZ_C = [1,22,42,62,82,102,121,142,162,182,201,222,242,262,282,302,322,342,362,382,
                402,422,442,462,482,502,522,542,562,582];
 function pageCoran(){
